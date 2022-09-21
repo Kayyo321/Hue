@@ -96,6 +96,17 @@ void Parser::Parse(Node *node, enum TokenType until) {
                     break;
 
                 default:
+                    if (curTok->type == COMMA) { // Ignore commas, just trust me.
+                        EatTok();
+                        break;
+                    }
+
+                    Node *child {curNode->NewChild()};
+                    child->nodeType = OTHER;
+                    child->nodeData = curTok->data;
+                    child->nodeToken = *curTok;
+
+                    EatTok();
                     break;
             }
         }
@@ -141,18 +152,16 @@ void Parser::ParseFuncDef(Node type, std::string name) {
     curNode->nodeData = "params";
     curNode->nodeType = PARAM;
 
-    EatTok(L_PARAN); // Skip '('.
     ParseParam();
-    EatTok(R_PARAN); // Skip ')'.
 
     curNode = functionNode;
 
-    EatTok(L_CURLY); // Skip '{'.
     ParseBody();
-    EatTok(R_CURLY); // Skip '}'.
 }
 
 void Parser::ParseParam() {
+    EatTok(L_PARAN); // Skip '('.
+
     size_t paramCount {};
 
     while (curTok->type != R_PARAN) {
@@ -169,10 +178,26 @@ void Parser::ParseParam() {
             EatTok();
 
             if (curTok->type == IDENTIFIER) {
-                Node &name {*param->NewChild()};
-                name = Node {*curTok};
-                name.nodeType = ID;
-                name.nodeToken = *curTok;
+                Node *name {param->NewChild()};
+                name->nodeType = ID;
+                name->nodeData = curTok->data;
+                name->nodeToken = *curTok;
+
+                EatTok();
+
+                while (curTok->type != R_PARAN && curTok->type != COMMA) {
+                    Node *child {name->NewChild()};
+                    child->nodeType = OTHER;
+                    child->nodeData = curTok->data;
+                    child->nodeToken = *curTok;
+
+                    if (PeekTok().type != R_PARAN && PeekTok().type != COMMA) {
+                        EatTok();
+                    }
+                    else {
+                        break;
+                    }
+                }
             }
             else {
                 param->nodeData = "badparam";
@@ -186,17 +211,25 @@ void Parser::ParseParam() {
             break;
         }
 
-        EatTok();
+        if (curTok->type != R_PARAN) {
+            EatTok();
+        }
 
-        if (curTok->data == ",") {
+        if (curTok->type == COMMA) {
             ++paramCount;
             EatTok();
         }
     }
 
+    EatTok(R_PARAN); // Skip ')'.
+
     Node *paramCountNode {curNode->NewChild()};
     paramCountNode->nodeType = PARAM_COUNT;
-    paramCountNode->nodeData = std::to_string(paramCount + 1);
+    paramCountNode->nodeData = std::to_string(
+        (paramCount == 0)
+            ? paramCount
+            : paramCount + 1
+    );
 }
 
 void Parser::ParseBody() {
@@ -204,7 +237,11 @@ void Parser::ParseBody() {
     body->nodeType = BODY;
     body->nodeData = "body";
 
+    EatTok(L_CURLY); // Skip '{'.
+
     Parse(body, R_CURLY);
+
+    EatTok(R_CURLY);
 }
 
 void Parser::ParseVarDef(Node type, std::string name) {
@@ -257,6 +294,10 @@ void Parser::ParseFuncCall(std::string name) {
     args->nodeType = ARG;
 
     Parse(args, R_PARAN);
+
+    Node *argCountNode {args->NewChild()};
+    argCountNode->nodeType = ARG_COUNT;
+    argCountNode->nodeData = std::to_string(args->children.size());
 
     EatTok();
 }

@@ -14,6 +14,7 @@ enum NodeType {
     PARAM,
     PARAM_COUNT,
     ARG,
+    ARG_COUNT,
     TYPE,
     ID,
     OTHER,
@@ -31,6 +32,7 @@ static const char *nodeTypeStrings[] {
     "PARAM",
     "PARAM_COUNT",
     "ARG",
+    "ARG_COUNT",
     "TYPE",
     "ID",
     "OTHER",
@@ -108,8 +110,11 @@ private:
     }
 
     void EatTok() {
-        ++curPos;
-        curTok = &tokens.at(curPos);
+        curTok = &tokens.at(++curPos);
+    }
+
+    Token PeekTok() {
+        return tokens.at(curPos + 1);
     }
 
     void EatTok(enum TokenType _type) {

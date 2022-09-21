@@ -1,11 +1,17 @@
 inc io
 inc op
 
-int main(str args, int argc) {
+int main() {
+    int i [] = {1, 2, 3, 4, 5};
+
     int i = 10;
     double d = 1.5;
     char c = 'C';
     str s = "String";
+
+    //if (true) {
+    //    outln("Hello World!");
+    //}
 
     int p ptr const = i;
 
