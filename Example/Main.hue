@@ -1,0 +1,15 @@
+inc io
+inc op
+
+int main(str args, int argc) {
+    int i = 10;
+    double d = 1.5;
+    char c = 'C';
+    str s = "String";
+
+    int p ptr const = i;
+
+    outln("Hello World!");
+
+    return 0;
+}
