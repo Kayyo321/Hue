@@ -95,6 +95,7 @@ private:
 
     void ParseRet();
 
+    void ParseOperation();
     void ParseCondition();
 
     bool IsSymbol() {
@@ -106,7 +107,32 @@ private:
     }
 
     bool IsOp() {
-        return curTok->type >= 34 || curTok->type <= 48;
+        std::vector<TokenType> operatorTypes {
+            PLUS,
+            MINUS,
+            ASTERISK,
+            DIVIDE,
+            MOD
+        };
+
+        const auto a {std::find(operatorTypes.begin(), operatorTypes.end(), curTok->type)};
+
+        return a != operatorTypes.end();
+    }
+
+    bool IsCon() {
+        std::vector<TokenType> operatorTypes {
+            EQU_EQU,
+            NOT_EQU,
+            LT,
+            GT,
+            LT_EQU,
+            GT_EQU
+        };
+
+        const auto a {std::find(operatorTypes.begin(), operatorTypes.end(), curTok->type)};
+
+        return a != operatorTypes.end();
     }
 
     void EatTok() {

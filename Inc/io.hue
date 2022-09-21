@@ -1,0 +1,25 @@
+int pout(str ln) {
+    sgnl print {*ln}
+
+    return 0;
+}
+
+int poutln(str ln) {
+    sgnl print {*ln} {\n}
+
+    return 0;
+}
+
+str outln(str path) {
+    str ret;
+
+    sgnl unpack {*path} {&ret}
+
+    return ret;
+}
+
+int inln(str ln, str path) {
+    sgnl pack {*path} {*ln}
+
+    return 0;
+}

@@ -1,0 +1,22 @@
+int if(int boolean) {
+    sgnl is1 {*boolean} {runbody} {donothing}
+
+    return 0;
+}
+
+int for(int i, int loop) {
+    if (loop) {
+        i = i + 1;
+        sgnl runbody redobody
+    }
+
+    return 0;
+}
+
+int while(int loop) {
+    if (loop) {
+        sgnl runbody redobody
+    }
+
+    return 0;
+}

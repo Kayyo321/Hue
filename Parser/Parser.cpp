@@ -62,6 +62,12 @@ void Parser::Parse(Node *node, enum TokenType until) {
                 }
             }
         }
+        else if (IsOp()) {
+
+        }
+        else if (IsCon()) {
+
+        }
         else {
             switch (curTok->type) {
                 case IDENTIFIER:
@@ -367,6 +373,16 @@ void Parser::ParseRet() {
     EatTok();
 }
 
+// int x = 1 + 2 * 3;
+//           ^
+//TODO: Create ParseOperation function.
+void Parser::ParseOperation() {
+
+}
+
+// int b = x == y && a == c;
+//           ^^
+//TODO: Create ParseCondition function.
 void Parser::ParseCondition() {
 
 }
