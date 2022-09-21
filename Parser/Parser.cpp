@@ -94,6 +94,9 @@ void Parser::Parse(Node *node, enum TokenType until) {
                 case L_CURLY:
                     ParseBody();
                     break;
+
+                default:
+                    break;
             }
         }
     }
