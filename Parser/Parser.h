@@ -136,7 +136,9 @@ private:
     }
 
     void EatTok() {
-        curTok = &tokens.at(++curPos);
+        if (curPos <= tokens.size()) {
+            curTok = &tokens.at(++curPos);
+        }
     }
 
     Token PeekTok() {

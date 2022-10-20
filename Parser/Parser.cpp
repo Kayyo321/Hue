@@ -62,12 +62,6 @@ void Parser::Parse(Node *node, enum TokenType until) {
                 }
             }
         }
-        else if (IsOp()) {
-
-        }
-        else if (IsCon()) {
-
-        }
         else {
             switch (curTok->type) {
                 case IDENTIFIER:
@@ -255,6 +249,11 @@ void Parser::ParseVarDef(Node type, std::string name) {
     varNode->nodeData = name;
     varNode->nodeType = VAR_DEF;
 
+    Node *typeNode {varNode->NewChild()};
+    typeNode->nodeData = type.nodeToken.data;
+    typeNode->nodeType = TYPE;
+    typeNode->nodeToken = type.nodeToken;
+
     while (curTok->type != EQU) {
         Node *tmp {varNode->NewChild()};
         tmp->nodeType = OTHER;
@@ -313,7 +312,7 @@ void Parser::ParseVarCall(std::string name) {
     varNode->nodeType = VAR_CALL;
     varNode->nodeData = name;
 
-    Parse(varNode, SEMICOLON);
+    //EatTok();
 }
 
 void Parser::ParseSignal() {

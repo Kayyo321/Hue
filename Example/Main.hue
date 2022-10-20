@@ -1,7 +1,7 @@
 inc io
 
 int main() {
-    int i = 5 + 5;
+    int i = 10;
     double d = 1.5;
     char c = 'C';
     str s = "String";
@@ -11,10 +11,7 @@ int main() {
     int arr [] = {1, 2, 3, 4, 5};
 
     poutln("Hello World!");
-
-    pout("" + i + ", ");
-    pout("" + d + ", ");
-    poutln("" + s);
+    poutln("" + i + ", " + d + ", " + s);
 
     return 0;
 }

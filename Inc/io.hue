@@ -10,7 +10,17 @@ int poutln(str ln) {
     return 0;
 }
 
-str outln(str path) {
+str tin(str ln) {
+    pout(ln);
+
+    str ret;
+
+    sgnl cin {&ret}
+
+    return ret;
+}
+
+str fout(str path) {
     str ret;
 
     sgnl unpack {*path} {&ret}
@@ -18,7 +28,7 @@ str outln(str path) {
     return ret;
 }
 
-int inln(str ln, str path) {
+int fin(str ln, str path) {
     sgnl pack {*path} {*ln}
 
     return 0;
